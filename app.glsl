@@ -19,7 +19,7 @@ float combineSDF(float d1, float d2){
 }
 float lighting(){
     vec3 lightdir = vec3(1.,0.,0.);
-    
+
     return 2.;
 }
 void main() {
@@ -27,7 +27,8 @@ void main() {
     vec2 c = uv - 0.5;
     c *= u_resolution.y / u_resolution.x;
     float c1 = sphereSDF(c,vec2(0.,0.) ,.2);
-    float c2 = sphereSDF(c,vec2(.5*cos(u_time),.2*sin(u_time)) ,.02);
-    vec3 color = vec3(smoothstep(0.,0.,combineSDF(c1,c2)));
+    float c2 = sphereSDF(c,vec2(.4*cos(u_time),.2*sin(u_time)) ,.02 + 0.1*sin(u_time));
+    float c3 = sphereSDF(c,vec2(.4*sin(u_time),.3*cos(u_time)) ,.04*abs(sin(u_time)));
+    vec3 color = vec3(smoothstep(0.,0.,combineSDF(combineSDF(c1,c2), c3)));
     gl_FragColor = vec4(color, 1.);
 }
