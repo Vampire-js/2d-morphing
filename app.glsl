@@ -13,6 +13,12 @@ float smin(float a, float b, float k) {
     return -log(res) / k;
 }
 
+float sdBox( in vec2 p, in vec2 b )
+{
+    vec2 d = abs(p)-b;
+    return length(max(d,0.0)) + smin(max(d.x,d.y),0.0, 15.);
+}
+
 float combineSDF(float d1, float d2){
 
     return smin(d1, d2, 35.);
@@ -27,8 +33,8 @@ void main() {
     vec2 c = uv - 0.5;
     c *= u_resolution.y / u_resolution.x;
     float c1 = sphereSDF(c,vec2(0.,0.) ,.2);
-    float c2 = sphereSDF(c,vec2(.4*cos(u_time),.2*sin(u_time)) ,.02 + 0.1*sin(u_time));
-    float c3 = sphereSDF(c,vec2(.4*sin(u_time),.3*cos(u_time)) ,.04*abs(sin(u_time)));
-    vec3 color = vec3(smoothstep(0.,0.,combineSDF(combineSDF(c1,c2), c3)));
+    float c2 = sphereSDF(c,vec2(.4*cos(u_time),.2*sin(u_time)) ,.12 );
+    float c3 = sphereSDF(c,vec2(.4*sin(u_time),.3*cos(u_time)) ,.04);
+    vec3 color = vec3(smoothstep(0.,0.,combineSDF(combineSDF(c1,c2), sdBox(c, vec2(0.13)))));
     gl_FragColor = vec4(color, 1.);
 }
