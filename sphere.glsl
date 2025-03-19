@@ -60,7 +60,7 @@ vec3 getNormal(vec3 p) {
 
 vec3 lighting(vec3 normals , vec3 lightDir, vec3 color){
     float ambience = .3;
-return mix(color + vec3(ambience), vec3(0.) + vec3(ambience) , max(1.-dot(normals, lightDir), 0.));
+return mix(color + , vec3(0.) + vec3(ambience) , max(1.-dot(normals, lightDir), 0.));
 }
 
 void main() {
