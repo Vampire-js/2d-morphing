@@ -19,13 +19,14 @@ struct Cube{
 #define SURF_DIST 0.001
 #define MAX_SPHERES 3
 #define MAX_CUBES 3
+#define butterness 6.
 
 Sphere spheres[MAX_SPHERES];
 Cube cubes[MAX_CUBES];
 
 void setupSpheres() {
-    spheres[0] = Sphere(vec3(.5*cos(u_time), .5*sin(u_time), 0.05), 0.2);
-    spheres[1] = Sphere(vec3(.5*sin(u_time), .5*cos(u_time), 0.05), 0.2);
+    spheres[0] = Sphere(vec3(.9*cos(u_time), .8*sin(u_time), 0.05), 0.3);
+    spheres[1] = Sphere(vec3(.9*sin(u_time), .8*cos(u_time), 0.05), 0.3);
 
     cubes[0] = Cube(vec3(0.0, 0.0, 0.0), vec3(0.7882, 0.749, 0.1));
 }
@@ -48,10 +49,10 @@ float sdBox( vec3 p, Cube c )
 float sceneSDF(vec3 p) {
     float d = MAX_DIST;
     for(int i = 0; i < MAX_SPHERES; i++) {
-        d = smin(d, sphereSDF(p, spheres[i]), 15.);
+        d = smin(d, sphereSDF(p, spheres[i]), butterness);
     }
     for(int i=0; i<MAX_CUBES; i++){
-        d = smin(d , sdBox(p, cubes[i]) ,15.);
+        d = smin(d , sdBox(p, cubes[i]) ,butterness);
     }
     return d;
 }
